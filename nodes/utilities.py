@@ -3,6 +3,8 @@ Utility Nodes for ComfyUI
 Provides various helper utilities
 """
 
+import time
+
 # from https://github.com/pythongosssss/ComfyUI-Custom-Scripts
 class AnyType(str):
     def __ne__(self, __value: object) -> bool:
@@ -53,8 +55,8 @@ class DebugPrint:
         
         # Return the original value unchanged
         return (value,)
-
-
+    
+    
 class ConditionalString:
     """
     Node for conditional string output based on boolean input
@@ -97,13 +99,57 @@ class ConditionalString:
         return (true_string if condition else false_string,)
 
 
+class WaitNode:
+    """
+    Node that waits for a specified number of milliseconds before passing the input through
+    """
+    
+    @classmethod
+    def INPUT_TYPES(cls):
+        return {
+            "required": {
+                "value": (any, {"forceInput": True}),
+                "wait_time_ms": ("INT", {
+                    "default": 1000,  # Default wait time is 1000 ms (1 second)
+                    "min": 0,         # Minimum wait time is 0 ms
+                }),
+            }
+        }
+    
+    # Use wildcard for output type to pass through any type
+    RETURN_TYPES = ("*",)
+    RETURN_NAMES = ("passthrough",)
+    
+    FUNCTION = "wait_and_pass"
+    CATEGORY = "DebugPadawan/Utilities"
+    
+    def wait_and_pass(self, value, wait_time_ms):
+        """
+        Wait for the specified time and pass the input through
+        
+        Args:
+            value: Any value to pass through
+            wait_time_ms (int): Time to wait in milliseconds
+            
+        Returns:
+            The same value (passthrough)
+        """
+        # Convert milliseconds to seconds and wait
+        time.sleep(wait_time_ms / 1000.0)
+        
+        # Return the original value unchanged
+        return (value,)
+
+
 # Add these to the main mappings if needed
 UTILITY_NODE_CLASS_MAPPINGS = {
     "DebugPadawan_DebugPrint": DebugPrint,
     "DebugPadawan_ConditionalString": ConditionalString,
+    "DebugPadawan_WaitNode": WaitNode,
 }
 
 UTILITY_NODE_DISPLAY_NAME_MAPPINGS = {
     "DebugPadawan_DebugPrint": "Debug Print",
     "DebugPadawan_ConditionalString": "Conditional String",
+    "DebugPadawan_WaitNode": "Wait Node",
 }
