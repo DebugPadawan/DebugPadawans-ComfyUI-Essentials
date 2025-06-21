@@ -156,60 +156,16 @@ class ListInfo:
         return (count, first_item, last_item)
 
 
-class TextToJSON:
-    """
-    Node for converting a text string to a JSON object
-    """
-    
-    @classmethod
-    def INPUT_TYPES(cls):
-        return {
-            "required": {
-                "text_input": ("STRING", {
-                    "multiline": True,
-                    "default": '{"key": "value"}'
-                }),
-            }
-        }
-    
-    RETURN_TYPES = ("JSON", "STRING")
-    RETURN_NAMES = ("json_output", "error_message")
-    
-    FUNCTION = "convert_to_json"
-    CATEGORY = "DebugPadawan/JSON"
-    
-    def convert_to_json(self, text_input):
-        """
-        Convert a text string to a JSON object
-        
-        Args:
-            text_input (str): Input text to convert
-            
-        Returns:
-            tuple: (JSON object, error message)
-        """
-        try:
-            # Parse the text input as JSON
-            json_output = json.loads(text_input)
-            return (json_output, "")
-        except json.JSONDecodeError as e:
-            # Return an error message if the JSON is invalid
-            return (None, f"Invalid JSON: {str(e)}")
-        except Exception as e:
-            # Handle other exceptions
-            return (None, f"Error: {str(e)}")
 
 
 NODE_CLASS_MAPPINGS = {
     "DebugPadawan_TextSplitter": TextSplitter,
     "DebugPadawan_TextJoiner": TextJoiner,
     "DebugPadawan_ListInfo": ListInfo,
-    "DebugPadawan_TextToJSON": TextToJSON,
 }
 
 NODE_DISPLAY_NAME_MAPPINGS = {
     "DebugPadawan_TextSplitter": "Text Splitter",
     "DebugPadawan_TextJoiner": "Text Joiner", 
     "DebugPadawan_ListInfo": "List Info",
-    "DebugPadawan_TextToJSON": "Text to JSON",
 }
