@@ -13,9 +13,9 @@ class WaitNode:
         return {
             "required": {
                 "value": (any, {"forceInput": True}),
-                "wait_time_ms": ("INT", {
-                    "default": 1000,
-                    "min": 0,
+                "wait_time_seconds": ("FLOAT", {
+                    "default": 1.0,  # Default wait time is 1 second
+                    "min": 0.0,      # Minimum wait time is 0 seconds
                 }),
             }
         }
@@ -26,18 +26,18 @@ class WaitNode:
     FUNCTION = "wait_and_pass"
     CATEGORY = "DebugPadawan/Timing"
     
-    def wait_and_pass(self, value, wait_time_ms):
+    def wait_and_pass(self, value, wait_time_seconds):
         """
         Wait for the specified time and pass the input through
         
         Args:
             value: Any value to pass through
-            wait_time_ms (int): Time to wait in milliseconds
+            wait_time_seconds (float): Time to wait in seconds
             
         Returns:
             The same value (passthrough)
         """
-        time.sleep(wait_time_ms / 1000.0)
+        time.sleep(wait_time_seconds)
         
         return (value,)
 
