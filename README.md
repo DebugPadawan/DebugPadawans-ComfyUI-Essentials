@@ -21,6 +21,10 @@
 <td>Split, join, and manipulate text strings with precision</td>
 </tr>
 <tr>
+<td><b>📦 Data Conversion</b></td>
+<td>Convert between text and JSON formats easily</td>
+</tr>
+<tr>
 <td><b>🐛 Debug Tools</b></td>
 <td>Print and inspect values during workflow execution</td>
 </tr>
@@ -78,7 +82,7 @@ Delimiter: ","
 Output: ["apple", "banana", "orange"] and 3
 ```
 
-**🎯 Applications:** Process CSV-like data, split tag lists, separate coordinates, create filename lists, parse prompt components.
+Process CSV-like data, split tag lists, separate coordinates, create filename lists, parse prompt components.
 
 </details>
 
@@ -107,7 +111,34 @@ Suffix: " - end"
 Output: "Colors: red | green | blue - end"
 ```
 
-**🎯 Applications:** Combine prompt parts, convert lists to readable text, create metadata tags, build filenames, format output strings.
+Combine prompt parts, convert lists to readable text, create metadata tags, build filenames, format output strings.
+
+</details>
+
+---
+
+### 📦 Data Conversion
+
+<details>
+<summary><b>🗃️ TextToJSON</b> - Convert text to JSON</summary>
+
+**Category:** `DebugPadawan/JSON`
+
+Converts a valid JSON string into a JSON object, enabling further data processing or integration with other nodes.
+
+**📥 Inputs:**
+- `text` *(String)*: The text to parse as JSON
+
+**📤 Outputs:**
+- `json` *(JSON/Object)*: The parsed JSON object
+
+**💡 Example:**
+```
+Input: '{"name": "Alice", "age": 30}'
+Output: { "name": "Alice", "age": 30 }
+```
+
+Use this node to quickly transform JSON-formatted text into a usable data structure for your ComfyUI workflows.
 
 </details>
 
@@ -139,7 +170,7 @@ Prints values to the console without interrupting the workflow. Perfect for debu
 [Float Value] float: 3.14159
 ```
 
-**🎯 Applications:** Monitor values during execution, debug complex workflows, verify data types, set checkpoints, troubleshoot unexpected results.
+Monitor values during execution, debug complex workflows, verify data types, set checkpoints, troubleshoot unexpected results.
 
 </details>
 
@@ -170,7 +201,7 @@ Pauses workflow execution for a specified duration. Useful for rate limiting, ti
 [Custom Timer] Wait completed.
 ```
 
-**🎯 Applications:** Rate limiting API calls, debugging timing issues, controlling workflow execution speed, adding pauses between operations, synchronizing parallel processes.
+Rate limit API calls, debug timing issues, control workflow execution speed, add pauses between operations, synchronize parallel processes.
 
 **⚠️ Note:** Use with caution in production workflows as it will genuinely pause execution.
 
@@ -195,7 +226,7 @@ Analyzes a list and returns useful information about it.
 - `first_item` *(String)*: First element (as string)
 - `last_item` *(String)*: Last element (as string)
 
-**🎯 Applications:** Validate list processing results, get quick statistics, check if lists are empty, extract boundary values.
+Validate list processing results, get quick statistics, check if lists are empty, extract boundary values.
 
 </details>
 
@@ -214,7 +245,7 @@ Returns one of two strings based on a boolean condition.
 **📤 Outputs:**
 - `result` *(String)*: The selected string
 
-**🎯 Applications:** Conditional prompt modification, dynamic filename generation, workflow branching, status message generation.
+Conditional prompt modification, dynamic filename generation, workflow branching, status message generation.
 
 </details>
 
@@ -227,6 +258,11 @@ Returns one of two strings based on a boolean condition.
 "apple,banana,orange" → Text Splitter → ["apple", "banana", "orange"]
                                     ↓
 ["apple", "banana", "orange"] → Text Joiner → "apple | banana | orange"
+```
+
+### Text to JSON Conversion
+```
+'{"foo": "bar"}' → TextToJSON → { "foo": "bar" }
 ```
 
 ### Debug Workflow
@@ -246,8 +282,9 @@ Data → Wait (2.0s) → Processing → Wait (1.0s) → Output
 | Category | Nodes | Purpose |
 |----------|-------|---------|
 | **DebugPadawan/Text** | Text Splitter, Text Joiner | Text manipulation and processing |
+| **DebugPadawan/JSON** | TextToJSON | Text to JSON conversion |
 | **DebugPadawan/Debug** | Debug Print | Debugging and monitoring |
-| **DebugPadawn/Timing** | Wait | Timing control and delays |
+| **DebugPadawan/Timing** | Wait | Timing control and delays |
 | **DebugPadawan/Utilities** | List Info | Data analysis helpers |
 | **DebugPadawan/Logic** | Conditional String | Conditional operations |
 
