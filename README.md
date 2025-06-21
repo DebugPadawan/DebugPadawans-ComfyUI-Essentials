@@ -1,92 +1,135 @@
-# DebugPadawan's ComfyUI Essentials
+<div align="center">
 
-A collection of essential custom nodes for ComfyUI that provides useful utilities for text processing, data manipulation, and workflow enhancement.
+# 🎯 DebugPadawan's ComfyUI Essentials
 
-## Features
+*Essential custom nodes for ComfyUI workflows*
 
-- **Text Processing Nodes**: Split, join, and manipulate text strings
-- **Data Utilities**: Convert between different data types
-- **Workflow Helpers**: Common operations to streamline your ComfyUI workflows
-- **Debug Tools**: Print and inspect values during workflow execution
+[![Python](https://img.shields.io/badge/Python-3.8+-blue.svg)](https://python.org)
+[![ComfyUI](https://img.shields.io/badge/ComfyUI-Compatible-green.svg)](https://github.com/comfyanonymous/ComfyUI)
+[![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![GitHub Stars](https://img.shields.io/github/stars/DebugPadawan/DebugPadawans-ComfyUI-Essentials.svg)](https://github.com/DebugPadawan/DebugPadawans-ComfyUI-Essentials/stargazers)
 
-## Installation
+</div>
 
-1. Clone this repository into your ComfyUI `custom_nodes` directory:
+---
+
+## ✨ Features
+
+<table>
+<tr>
+<td><b>🔤 Text Processing</b></td>
+<td>Split, join, and manipulate text strings with precision</td>
+</tr>
+<tr>
+<td><b>🐛 Debug Tools</b></td>
+<td>Print and inspect values during workflow execution</td>
+</tr>
+<tr>
+<td><b>⏱️ Timing Control</b></td>
+<td>Add delays and timing control to your workflows</td>
+</tr>
+<tr>
+<td><b>🔧 Utilities</b></td>
+<td>Essential helpers for workflow optimization</td>
+</tr>
+</table>
+
+---
+
+## 🚀 Installation
+
 ```bash
+# Navigate to your ComfyUI custom nodes directory
 cd ComfyUI/custom_nodes
+
+# Clone the repository
 git clone https://github.com/DebugPadawan/DebugPadawans-ComfyUI-Essentials.git
+
+# Restart ComfyUI
 ```
 
-2. Restart ComfyUI
+---
 
-## Available Nodes
+## 📦 Available Nodes
 
-### Text Processing
+### 🔤 Text Processing
 
-#### Text Splitter
-**Category**: DebugPadawan/Text
+<details>
+<summary><b>📝 Text Splitter</b> - Split text strings by delimiter</summary>
+
+**Category:** `DebugPadawan/Text`
 
 Splits a text string at a specified delimiter and returns a list of strings.
 
-**Inputs:**
-- `text` (String): The text to split (supports multiline input)
-- `delimiter` (String): The character(s) to split by (default: ",")
-- `strip_whitespace` (Boolean, optional): Remove leading/trailing whitespace from each element (default: True)
-- `remove_empty` (Boolean, optional): Remove empty strings from the result (default: True)
+**📥 Inputs:**
+- `text` *(String)*: The text to split (supports multiline input)
+- `delimiter` *(String)*: The character(s) to split by (default: `","`)
+- `strip_whitespace` *(Boolean, optional)*: Remove leading/trailing whitespace (default: `True`)
+- `remove_empty` *(Boolean, optional)*: Remove empty strings from result (default: `True`)
 
-**Outputs:**
-- `text_list` (List): The split list of strings
-- `count` (Integer): Number of elements in the list
+**📤 Outputs:**
+- `text_list` *(List)*: The split list of strings
+- `count` *(Integer)*: Number of elements in the list
 
-**Example:**
-- Input: `"apple, banana, orange"`
-- Delimiter: `","`
-- Output: `["apple", "banana", "orange"]` and `3`
+**💡 Example:**
+```
+Input: "apple, banana, orange"
+Delimiter: ","
+Output: ["apple", "banana", "orange"] and 3
+```
 
-Process CSV-like data, split tag lists, separate coordinates or parameters, create filename lists, and parse prompt components.
+**🎯 Applications:** Process CSV-like data, split tag lists, separate coordinates, create filename lists, parse prompt components.
 
----
+</details>
 
-#### Text Joiner
-**Category**: DebugPadawan/Text
+<details>
+<summary><b>🔗 Text Joiner</b> - Combine strings with custom delimiters</summary>
+
+**Category:** `DebugPadawan/Text`
 
 Combines a list of strings into a single text string with a customizable delimiter.
 
-**Inputs:**
-- `text_list` (List): List of strings to join
-- `delimiter` (String): Character(s) to join with (default: ", ")
-- `prefix` (String, optional): Text to add at the beginning
-- `suffix` (String, optional): Text to add at the end
+**📥 Inputs:**
+- `text_list` *(List)*: List of strings to join
+- `delimiter` *(String)*: Character(s) to join with (default: `", "`)
+- `prefix` *(String, optional)*: Text to add at the beginning
+- `suffix` *(String, optional)*: Text to add at the end
 
-**Outputs:**
-- `joined_text` (String): The combined text string
+**📤 Outputs:**
+- `joined_text` *(String)*: The combined text string
 
-**Example:**
-- Input: `["red", "green", "blue"]`
-- Delimiter: `" | "`
-- Prefix: `"Colors: "`
-- Suffix: `" - end"`
-- Output: `"Colors: red | green | blue - end"`
+**💡 Example:**
+```
+Input: ["red", "green", "blue"]
+Delimiter: " | "
+Prefix: "Colors: "
+Suffix: " - end"
+Output: "Colors: red | green | blue - end"
+```
 
-Combine prompt parts, convert lists to readable text, create tags for metadata, build filenames from components, and format output strings.
+**🎯 Applications:** Combine prompt parts, convert lists to readable text, create metadata tags, build filenames, format output strings.
+
+</details>
 
 ---
 
-### Debug Tools
+### 🐛 Debug Tools
 
-#### Debug Print
-**Category**: DebugPadawan/Debug
+<details>
+<summary><b>🖨️ Debug Print</b> - Console output for debugging</summary>
 
-Prints values to the console without interrupting the workflow. Perfect for debugging and monitoring data values during execution. Accepts any input type including strings, integers, floats, booleans, lists, dictionaries, and complex objects.
+**Category:** `DebugPadawan/Debug`
 
-**Inputs:**
-- `value` (*): Any value to print to console (supports all data types)
-- `label` (String, optional): Label for the debug output (default: "Debug")
+Prints values to the console without interrupting the workflow. Perfect for debugging and monitoring data values during execution.
 
-**Outputs:**
-- `passthrough` (*): The same value passed through unchanged
+**📥 Inputs:**
+- `value` *(Any)*: Any value to print to console (supports all data types)
+- `label` *(String, optional)*: Label for the debug output (default: `"Debug"`)
 
-**Console Output:**
+**📤 Outputs:**
+- `passthrough` *(Any)*: The same value passed through unchanged
+
+**💻 Console Output:**
 ```
 [MyLabel] list: ['Element1', 'Element2', 'Element3']
 [Debug] str: Hello World
@@ -96,39 +139,138 @@ Prints values to the console without interrupting the workflow. Perfect for debu
 [Float Value] float: 3.14159
 ```
 
-Monitor values during workflow execution, debug complex workflows, verify data types and contents, set workflow checkpoints, and troubleshoot unexpected results. Use descriptive labels and remember that the node doesn't interrupt data flow.
+**🎯 Applications:** Monitor values during execution, debug complex workflows, verify data types, set checkpoints, troubleshoot unexpected results.
+
+</details>
 
 ---
 
-### Utility Nodes
+### ⏱️ Timing Control
 
-#### List Info
-**Category**: DebugPadawan/Utilities
+<details>
+<summary><b>⏳ Wait</b> - Add delays to workflow execution</summary>
+
+**Category:** `DebugPadawan/Timing`
+
+Pauses workflow execution for a specified duration. Useful for rate limiting, timing control, or debugging workflow sequences.
+
+**📥 Inputs:**
+- `value` *(Any)*: Any value to pass through after the delay
+- `delay_seconds` *(Float)*: Duration to wait in seconds (default: `1.0`)
+- `label` *(String, optional)*: Label for console output (default: `"Wait"`)
+
+**📤 Outputs:**
+- `passthrough` *(Any)*: The same value passed through after delay
+
+**💻 Console Output:**
+```
+[Wait] Waiting for 2.5 seconds...
+[Wait] Wait completed.
+[Custom Timer] Waiting for 5.0 seconds...
+[Custom Timer] Wait completed.
+```
+
+**🎯 Applications:** Rate limiting API calls, debugging timing issues, controlling workflow execution speed, adding pauses between operations, synchronizing parallel processes.
+
+**⚠️ Note:** Use with caution in production workflows as it will genuinely pause execution.
+
+</details>
+
+---
+
+### 🔧 Utility Nodes
+
+<details>
+<summary><b>📊 List Info</b> - Analyze list properties</summary>
+
+**Category:** `DebugPadawan/Utilities`
 
 Analyzes a list and returns useful information about it.
 
-**Inputs:**
-- `input_list` (List): The list to analyze
+**📥 Inputs:**
+- `input_list` *(List)*: The list to analyze
 
-**Outputs:**
-- `count` (Integer): Number of elements
-- `first_item` (String): First element (as string)
-- `last_item` (String): Last element (as string)
+**📤 Outputs:**
+- `count` *(Integer)*: Number of elements
+- `first_item` *(String)*: First element (as string)
+- `last_item` *(String)*: Last element (as string)
 
-Validate list processing results, get quick list statistics, check if lists are empty, and extract boundary values.
+**🎯 Applications:** Validate list processing results, get quick statistics, check if lists are empty, extract boundary values.
 
-#### Conditional String
-**Category**: DebugPadawan/Logic
+</details>
+
+<details>
+<summary><b>🔀 Conditional String</b> - Boolean-based string selection</summary>
+
+**Category:** `DebugPadawan/Logic`
 
 Returns one of two strings based on a boolean condition.
 
-**Inputs:**
-- `condition` (Boolean): The condition to evaluate
-- `true_string` (String): String to return if True (default: "True")
-- `false_string` (String): String to return if False (default: "False")
+**📥 Inputs:**
+- `condition` *(Boolean)*: The condition to evaluate
+- `true_string` *(String)*: String to return if True (default: `"True"`)
+- `false_string` *(String)*: String to return if False (default: `"False"`)
 
-**Outputs:**
-- `result` (String): The selected string
+**📤 Outputs:**
+- `result` *(String)*: The selected string
 
-Conditional prompt modification, dynamic filename generation, workflow branching based on conditions, and status message generation.
+**🎯 Applications:** Conditional prompt modification, dynamic filename generation, workflow branching, status message generation.
 
+</details>
+
+---
+
+## 🎨 Quick Start Examples
+
+### Basic Text Processing
+```
+"apple,banana,orange" → Text Splitter → ["apple", "banana", "orange"]
+                                    ↓
+["apple", "banana", "orange"] → Text Joiner → "apple | banana | orange"
+```
+
+### Debug Workflow
+```
+Input Data → Debug Print ("Input") → Processing Node → Debug Print ("Output") → Result
+```
+
+### Timed Processing
+```
+Data → Wait (2.0s) → Processing → Wait (1.0s) → Output
+```
+
+---
+
+## 📋 Node Categories
+
+| Category | Nodes | Purpose |
+|----------|-------|---------|
+| **DebugPadawan/Text** | Text Splitter, Text Joiner | Text manipulation and processing |
+| **DebugPadawan/Debug** | Debug Print | Debugging and monitoring |
+| **DebugPadawn/Timing** | Wait | Timing control and delays |
+| **DebugPadawan/Utilities** | List Info | Data analysis helpers |
+| **DebugPadawan/Logic** | Conditional String | Conditional operations |
+
+---
+
+## 🤝 Contributing
+
+We welcome contributions! Feel free to:
+- 🐛 Report bugs
+- 💡 Suggest new features  
+- 🔧 Submit pull requests
+- 📖 Improve documentation
+
+---
+
+## 📄 License
+
+This project is licensed under the [MIT License](LICENSE).
+
+---
+
+<div align="center">
+
+**Made with ❤️ by [DebugPadawan](https://github.com/DebugPadawan)**
+
+</div>
