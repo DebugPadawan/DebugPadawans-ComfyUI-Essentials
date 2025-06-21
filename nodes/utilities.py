@@ -49,7 +49,6 @@ class DebugPrint:
         # Return the original value unchanged
         return (value,)
     
-    
 class ConditionalString:
     """
     Node for conditional string output based on boolean input
