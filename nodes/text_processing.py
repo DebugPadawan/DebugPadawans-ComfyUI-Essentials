@@ -1,8 +1,3 @@
-"""
-Text Processing Nodes for ComfyUI
-Provides various text manipulation utilities
-"""
-
 class TextSplitter:
     """
     Node for splitting text strings by a delimiter
@@ -158,7 +153,6 @@ class ListInfo:
         return (count, first_item, last_item)
 
 
-# Node mappings for ComfyUI
 NODE_CLASS_MAPPINGS = {
     "DebugPadawan_TextSplitter": TextSplitter,
     "DebugPadawan_TextJoiner": TextJoiner,
