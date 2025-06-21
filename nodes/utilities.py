@@ -3,6 +3,13 @@ Utility Nodes for ComfyUI
 Provides various helper utilities
 """
 
+# from https://github.com/pythongosssss/ComfyUI-Custom-Scripts
+class AnyType(str):
+    def __ne__(self, __value: object) -> bool:
+        return False
+
+any = AnyType("*")
+
 class DebugPrint:
     """
     Node for debugging - prints values to console
@@ -12,8 +19,7 @@ class DebugPrint:
     def INPUT_TYPES(cls):
         return {
             "required": {
-                # Specify common types explicitly instead of using wildcard
-                "value": ("STRING", {"forceInput": True}),
+                "value": (any, {"forceInput": True}),
             },
             "optional": {
                 "label": ("STRING", {
@@ -23,8 +29,8 @@ class DebugPrint:
             }
         }
     
-    # Match the input type exactly
-    RETURN_TYPES = ("STRING",)
+    # Use wildcard for output type to pass through any type
+    RETURN_TYPES = ("*",)
     RETURN_NAMES = ("passthrough",)
     
     FUNCTION = "debug_print"
@@ -41,7 +47,11 @@ class DebugPrint:
         Returns:
             The same value (passthrough)
         """
-        print(f"[{label}] {value}")
+        # Convert the value to a string for debugging purposes
+        debug_value = str(value) if not isinstance(value, str) else value
+        print(f"[{label}] {type(value).__name__}: {debug_value}")
+        
+        # Return the original value unchanged
         return (value,)
 
 
