@@ -12,7 +12,8 @@ class DebugPrint:
     def INPUT_TYPES(cls):
         return {
             "required": {
-                "value": ("*",),
+                # Specify common types explicitly instead of using wildcard
+                "value": ("STRING", {"forceInput": True}),
             },
             "optional": {
                 "label": ("STRING", {
@@ -22,7 +23,8 @@ class DebugPrint:
             }
         }
     
-    RETURN_TYPES = ("*",)
+    # Match the input type exactly
+    RETURN_TYPES = ("STRING",)
     RETURN_NAMES = ("passthrough",)
     
     FUNCTION = "debug_print"
@@ -39,7 +41,7 @@ class DebugPrint:
         Returns:
             The same value (passthrough)
         """
-        print(f"[{label}] {type(value).__name__}: {value}")
+        print(f"[{label}] {value}")
         return (value,)
 
 
