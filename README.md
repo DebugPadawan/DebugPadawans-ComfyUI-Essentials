@@ -523,7 +523,7 @@ Data → Wait (2.0s) → Processing → Wait (1.0s) → Output
 | **DebugPadawan/Utilities** | List Info | Data analysis helpers |
 | **DebugPadawan/Logic** | Conditional String, Logic Gate | Conditional operations |
 | **DebugPadawan/Image** | Image Info | Image tensor analysis |
-| **DebugPadawan/Math** | Int Math Operation, Float Math Operation, Random Generator | Basic arithmetic and random number generation |
+| **DebugPadawan/Math** | Int/Float Math Operation, Random Generator | Basic arithmetic and random number generation |
 | **DebugPadawan/List** | Get List Item, List Slicer | List manipulation |
 
 ---
