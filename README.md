@@ -115,6 +115,33 @@ Combine prompt parts, convert lists to readable text, create metadata tags, buil
 
 </details>
 
+<details>
+<summary><b>🔄 Text Replace</b> - Replace specific text in a string</summary>
+
+**Category:** `DebugPadawan/Text`
+
+Replaces all occurrences of a specific substring within a text string.
+
+**📥 Inputs:**
+- `text` *(String)*: The text to process
+- `find` *(String)*: The substring to search for
+- `replace` *(String)*: The string to replace it with
+
+**📤 Outputs:**
+- `text` *(String)*: The modified text string
+
+**💡 Example:**
+```
+Input: "A beautiful sunset over the ocean"
+Find: "sunset"
+Replace: "sunrise"
+Output: "A beautiful sunrise over the ocean"
+```
+
+Useful for dynamically adjusting prompts, modifying paths, and cleaning up generated text.
+
+</details>
+
 ---
 
 ### 📦 Data Conversion
@@ -209,6 +236,29 @@ Rate limit API calls, debug timing issues, control workflow execution speed, add
 
 ---
 
+### 🖼️ Image Utilities
+
+<details>
+<summary><b>📐 Image Info</b> - Extract image tensor dimensions</summary>
+
+**Category:** `DebugPadawan/Image`
+
+Extracts the width, height, and batch size from a ComfyUI Image tensor.
+
+**📥 Inputs:**
+- `image` *(Image)*: The image tensor to analyze
+
+**📤 Outputs:**
+- `width` *(Integer)*: Image width in pixels
+- `height` *(Integer)*: Image height in pixels
+- `batch_size` *(Integer)*: Number of images in the batch
+
+Useful for dynamic resizing, conditional logic based on aspect ratio, or passing dimensions to other nodes.
+
+</details>
+
+---
+
 ### 🔧 Utility Nodes
 
 <details>
@@ -281,12 +331,13 @@ Data → Wait (2.0s) → Processing → Wait (1.0s) → Output
 
 | Category | Nodes | Purpose |
 |----------|-------|---------|
-| **DebugPadawan/Text** | Text Splitter, Text Joiner | Text manipulation and processing |
+| **DebugPadawan/Text** | Text Splitter, Text Joiner, Text Replace | Text manipulation and processing |
 | **DebugPadawan/JSON** | TextToJSON | Text to JSON conversion |
 | **DebugPadawan/Debug** | Debug Print | Debugging and monitoring |
 | **DebugPadawan/Timing** | Wait | Timing control and delays |
 | **DebugPadawan/Utilities** | List Info | Data analysis helpers |
 | **DebugPadawan/Logic** | Conditional String | Conditional operations |
+| **DebugPadawan/Image** | Image Info | Image tensor analysis |
 
 ---
 
