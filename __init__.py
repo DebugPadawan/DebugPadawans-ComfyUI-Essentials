@@ -15,6 +15,13 @@ from .nodes.image import NODE_CLASS_MAPPINGS as IMAGE_NODES
 from .nodes.image import NODE_DISPLAY_NAME_MAPPINGS as IMAGE_DISPLAY_NAMES
 from .nodes.math_nodes import NODE_CLASS_MAPPINGS as MATH_NODES
 from .nodes.math_nodes import NODE_DISPLAY_NAME_MAPPINGS as MATH_DISPLAY_NAMES
+from .nodes.list_nodes import NODE_CLASS_MAPPINGS as LIST_NODES
+from .nodes.list_nodes import NODE_DISPLAY_NAME_MAPPINGS as LIST_DISPLAY_NAMES
+
+from .nodes.json_to_text import NODE_CLASS_MAPPINGS as JSON_TO_TEXT_NODES
+from .nodes.json_to_text import NODE_DISPLAY_NAME_MAPPINGS as JSON_TO_TEXT_DISPLAY_NAMES
+from .nodes.string_formatter import NODE_CLASS_MAPPINGS as STRING_FORMATTER_NODES
+from .nodes.string_formatter import NODE_DISPLAY_NAME_MAPPINGS as STRING_FORMATTER_DISPLAY_NAMES
 
 # Combine all node mappings
 NODE_CLASS_MAPPINGS = {
@@ -24,6 +31,9 @@ NODE_CLASS_MAPPINGS = {
     **JSON_NODES,
     **IMAGE_NODES,
     **MATH_NODES,
+    **LIST_NODES,
+    **JSON_TO_TEXT_NODES,
+    **STRING_FORMATTER_NODES,
 }
 
 NODE_DISPLAY_NAME_MAPPINGS = {
@@ -33,10 +43,13 @@ NODE_DISPLAY_NAME_MAPPINGS = {
     **JSON_DISPLAY_NAMES,
     **IMAGE_DISPLAY_NAMES,
     **MATH_DISPLAY_NAMES,
+    **LIST_DISPLAY_NAMES,
+    **JSON_TO_TEXT_DISPLAY_NAMES,
+    **STRING_FORMATTER_DISPLAY_NAMES,
 }
 
 __all__ = ['NODE_CLASS_MAPPINGS', 'NODE_DISPLAY_NAME_MAPPINGS']
 
 # Version info
-__version__ = "1.0.0"
+__version__ = "1.1.0"
 __author__ = "DebugPadawan"

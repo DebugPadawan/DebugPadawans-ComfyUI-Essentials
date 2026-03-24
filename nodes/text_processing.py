@@ -1,4 +1,5 @@
 import json
+import re
 
 
 class TextSplitter:
@@ -126,43 +127,56 @@ class TextReplace:
         return (text.replace(find, replace),)
 
 
-class ListInfo:
+class TextRegex:
     """
-    Node for getting information about a list
+    Node for searching and replacing text using regular expressions
     """
     
     @classmethod
     def INPUT_TYPES(cls):
         return {
             "required": {
-                "input_list": ("LIST",),
+                "text": ("STRING", {
+                    "multiline": True,
+                    "default": "My phone number is 123-456-7890"
+                }),
+                "pattern": ("STRING", {
+                    "multiline": False,
+                    "default": r"\d{3}-\d{3}-\d{4}"
+                }),
+                "replace": ("STRING", {
+                    "multiline": False,
+                    "default": "[REDACTED]"
+                }),
             }
         }
     
-    RETURN_TYPES = ("INT", "STRING", "STRING")
-    RETURN_NAMES = ("count", "first_item", "last_item")
+    RETURN_TYPES = ("STRING", "LIST", "BOOLEAN")
+    RETURN_NAMES = ("text", "matches", "found")
     
-    FUNCTION = "get_list_info"
-    CATEGORY = "DebugPadawan/Utilities"
+    FUNCTION = "regex_op"
+    CATEGORY = "DebugPadawan/Text"
     
-    def get_list_info(self, input_list):
-        count = len(input_list)
-        first_item = str(input_list[0]) if input_list else ""
-        last_item = str(input_list[-1]) if input_list else ""
+    def regex_op(self, text, pattern, replace):
+        if not pattern:
+            return (text, [], False)
         
-        return (count, first_item, last_item)
+        matches = re.findall(pattern, text)
+        result = re.sub(pattern, replace, text)
+        
+        return (result, matches, len(matches) > 0)
 
 
 NODE_CLASS_MAPPINGS = {
     "DebugPadawan_TextSplitter": TextSplitter,
     "DebugPadawan_TextJoiner": TextJoiner,
     "DebugPadawan_TextReplace": TextReplace,
-    "DebugPadawan_ListInfo": ListInfo,
+    "DebugPadawan_TextRegex": TextRegex,
 }
 
 NODE_DISPLAY_NAME_MAPPINGS = {
     "DebugPadawan_TextSplitter": "Text Splitter",
     "DebugPadawan_TextJoiner": "Text Joiner", 
     "DebugPadawan_TextReplace": "Text Replace",
-    "DebugPadawan_ListInfo": "List Info",
+    "DebugPadawan_TextRegex": "Text Regex (Search & Replace)",
 }

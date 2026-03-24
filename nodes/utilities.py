@@ -90,12 +90,50 @@ class ConditionalString:
         """
         return (true_string if condition else false_string,)
 
+
+class LogicGate:
+    """
+    Node for boolean logic operations (AND, OR, NOT, XOR)
+    """
+    
+    @classmethod
+    def INPUT_TYPES(cls):
+        return {
+            "required": {
+                "a": ("BOOLEAN", {"default": True}),
+                "b": ("BOOLEAN", {"default": False}),
+                "operation": (["AND", "OR", "NOT (A)", "XOR"],),
+            }
+        }
+    
+    RETURN_TYPES = ("BOOLEAN",)
+    RETURN_NAMES = ("result",)
+    
+    FUNCTION = "logic_op"
+    CATEGORY = "DebugPadawan/Logic"
+    
+    def logic_op(self, a, b, operation):
+        if operation == "AND":
+            res = a and b
+        elif operation == "OR":
+            res = a or b
+        elif operation == "NOT (A)":
+            res = not a
+        elif operation == "XOR":
+            res = a != b
+        else:
+            res = False
+        return (res,)
+
+
 UTILITY_NODE_CLASS_MAPPINGS = {
     "DebugPadawan_DebugPrint": DebugPrint,
     "DebugPadawan_ConditionalString": ConditionalString,
+    "DebugPadawan_LogicGate": LogicGate,
 }
 
 UTILITY_NODE_DISPLAY_NAME_MAPPINGS = {
     "DebugPadawan_DebugPrint": "Debug Print",
     "DebugPadawan_ConditionalString": "Conditional String",
+    "DebugPadawan_LogicGate": "Logic Gate",
 }

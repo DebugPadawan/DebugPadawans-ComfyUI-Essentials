@@ -33,8 +33,12 @@
 <td>Add delays and timing control to your workflows</td>
 </tr>
 <tr>
+<td><b>🔀 Logic & Math</b></td>
+<td>Boolean logic gates and mathematical operations</td>
+</tr>
+<tr>
 <td><b>🔧 Utilities</b></td>
-<td>Essential helpers for workflow optimization</td>
+<td>Essential helpers for workflow optimization and list management</td>
 </tr>
 </table>
 
@@ -142,6 +146,54 @@ Useful for dynamically adjusting prompts, modifying paths, and cleaning up gener
 
 </details>
 
+<details>
+<summary><b>🔍 Text Regex (Search & Replace)</b> - Pattern-based text manipulation</summary>
+
+**Category:** `DebugPadawan/Text`
+
+Searches for patterns using Regular Expressions and optionally replaces them.
+
+**📥 Inputs:**
+- `text` *(String)*: The text to process
+- `pattern` *(String)*: The regex pattern to search for
+- `replace` *(String)*: The string to replace matches with
+
+**📤 Outputs:**
+- `text` *(String)*: The modified text string
+- `matches` *(List)*: All strings that matched the pattern
+- `found` *(Boolean)*: True if at least one match was found
+
+Extract numbers, redact sensitive info, complex pattern replacement.
+
+</details>
+
+<details>
+<summary><b>💬 String Formatter</b> - Create custom strings with placeholders</summary>
+
+**Category:** `DebugPadawan/Text`
+
+Formats a string using f-string-like syntax with up to 5 input strings.
+
+**📥 Inputs:**
+- `format_string` *(String)*: The template string with placeholders (e.g., "Hello {input1}, your number is {input2}").
+- `input1` - `input5` *(String, optional)*: Up to five input strings to replace placeholders in the `format_string`.
+
+**📤 Outputs:**
+- `formatted_string` *(String)*: The resulting formatted string.
+
+**💡 Example:**
+```
+Format String: "The result of {input1} plus {input2} is {input3}"
+Input1: "2"
+Input2: "3"
+Input3: "5"
+Output: "The result of 2 plus 3 is 5"
+```
+
+Useful for constructing dynamic prompts, filenames, messages, or URLs from multiple pieces of data.
+
+</details>
+
 ---
 
 ### 📦 Data Conversion
@@ -166,6 +218,35 @@ Output: { "name": "Alice", "age": 30 }
 ```
 
 Use this node to quickly transform JSON-formatted text into a usable data structure for your ComfyUI workflows.
+
+</details>
+
+<details>
+<summary><b>💬 JSONToText</b> - Convert JSON to text</summary>
+
+**Category:** `DebugPadawan/JSON`
+
+Converts a JSON object back into a formatted JSON string.
+
+**📥 Inputs:**
+- `json_data` *(JSON/Object)*: The JSON object to convert.
+- `indent` *(Integer, optional)*: Number of spaces for indentation (0 for no indentation, default: `0`).
+
+**📤 Outputs:**
+- `text` *(String)*: The JSON object as a string.
+
+**💡 Example:**
+```
+Input: { "name": "Alice", "age": 30 }
+Indent: 2
+Output:
+{
+  "name": "Alice",
+  "age": 30
+}
+```
+
+Use this node to convert JSON data into a readable string for display, logging, or integration with nodes that expect string input.
 
 </details>
 
@@ -296,6 +377,55 @@ Generates a random float or integer between a min and max value, driven by a spe
 
 ---
 
+### 📝 List Manipulation
+
+<details>
+<summary><b>📝 Get List Item</b> - Retrieve an item from a list by index</summary>
+
+**Category:** `DebugPadawan/List`
+
+Retrieves a specific item from a list based on its index. Supports converting some iterable types to lists.
+
+**📥 Inputs:**
+- `input_list` *(Any, List force input)*: The input list or iterable.
+- `index` *(Integer)*: The zero-based index of the item to retrieve.
+
+**📤 Outputs:**
+- `item` *(Any)*: The item at the specified index.
+
+**💡 Example:**
+```
+Input List: ["apple", "banana", "orange"]
+Index: 1
+Output: "banana"
+```
+
+Useful for extracting specific elements from lists, such as getting a particular image from a batch, a specific tag from a list, or individual components from a parsed string list.
+
+</details>
+
+<details>
+<summary><b>✂️ List Slicer</b> - Extract a range of items from a list</summary>
+
+**Category:** `DebugPadawan/List`
+
+Extracts a sub-list from a larger list using start and end indices.
+
+**📥 Inputs:**
+- `input_list` *(List)*: The input list.
+- `start` *(Integer)*: Starting index (inclusive).
+- `end` *(Integer)*: Ending index (exclusive, use 0 for "to the end").
+
+**📤 Outputs:**
+- `list_slice` *(List)*: The sub-list.
+- `count` *(Integer)*: Number of elements in the slice.
+
+Get the first N images of a batch, skip the first item, or take a specific range of values.
+
+</details>
+
+---
+
 ### 🔧 Utility Nodes
 
 <details>
@@ -336,6 +466,24 @@ Conditional prompt modification, dynamic filename generation, workflow branching
 
 </details>
 
+<details>
+<summary><b>🔌 Logic Gate</b> - Boolean operations</summary>
+
+**Category:** `DebugPadawan/Logic`
+
+Performs AND, OR, NOT, or XOR operations on boolean inputs.
+
+**📥 Inputs:**
+- `a`, `b` *(Boolean)*: Boolean values.
+- `operation` *(List)*: AND, OR, NOT (A), XOR.
+
+**📤 Outputs:**
+- `result` *(Boolean)*: The resulting boolean value.
+
+Complex workflow branching and conditional logic.
+
+</details>
+
 ---
 
 ## 🎨 Quick Start Examples
@@ -368,14 +516,15 @@ Data → Wait (2.0s) → Processing → Wait (1.0s) → Output
 
 | Category | Nodes | Purpose |
 |----------|-------|---------|
-| **DebugPadawan/Text** | Text Splitter, Text Joiner, Text Replace | Text manipulation and processing |
-| **DebugPadawan/JSON** | TextToJSON | Text to JSON conversion |
+| **DebugPadawan/Text** | Text Splitter, Text Joiner, Text Replace, Text Regex, String Formatter | Text manipulation and processing |
+| **DebugPadawan/JSON** | TextToJSON, JSONToText | Text to JSON conversion |
 | **DebugPadawan/Debug** | Debug Print | Debugging and monitoring |
 | **DebugPadawan/Timing** | Wait | Timing control and delays |
 | **DebugPadawan/Utilities** | List Info | Data analysis helpers |
-| **DebugPadawan/Logic** | Conditional String | Conditional operations |
+| **DebugPadawan/Logic** | Conditional String, Logic Gate | Conditional operations |
 | **DebugPadawan/Image** | Image Info | Image tensor analysis |
 | **DebugPadawan/Math** | Int Math Operation, Float Math Operation, Random Generator | Basic arithmetic and random number generation |
+| **DebugPadawan/List** | Get List Item, List Slicer | List manipulation |
 
 ---
 
