@@ -338,6 +338,26 @@ Useful for dynamic resizing, conditional logic based on aspect ratio, or passing
 
 </details>
 
+<details>
+<summary><b>🎨 Color Palette Extractor</b> - Get dominant colors from an image</summary>
+
+**Category:** `DebugPadawan/Image`
+
+Analyzes an image and extracts the most dominant colors as hex strings and a visual palette.
+
+**📥 Inputs:**
+- `image` *(Image)*: The image to analyze.
+- `color_count` *(Integer)*: Number of colors to extract (default: 5, max: 20).
+
+**📤 Outputs:**
+- `hex_list` *(String)*: Comma-separated list of top hex colors.
+- `dominant_color` *(String)*: The most frequent hex color.
+- `palette_image` *(Image)*: A generated image showing the extracted color palette.
+
+Maintain consistent styles, extract themes from reference images, or use colors for conditional prompting.
+
+</details>
+
 ---
 
 ### 🧮 Math & Random
@@ -522,7 +542,7 @@ Data → Wait (2.0s) → Processing → Wait (1.0s) → Output
 | **DebugPadawan/Timing** | Wait | Timing control and delays |
 | **DebugPadawan/Utilities** | List Info | Data analysis helpers |
 | **DebugPadawan/Logic** | Conditional String, Logic Gate | Conditional operations |
-| **DebugPadawan/Image** | Image Info | Image tensor analysis |
+| **DebugPadawan/Image** | Image Info, Color Palette Extractor | Image tensor analysis and color extraction |
 | **DebugPadawan/Math** | Int/Float Math Operation, Random Generator | Basic arithmetic and random number generation |
 | **DebugPadawan/List** | Get List Item, List Slicer | List manipulation |
 

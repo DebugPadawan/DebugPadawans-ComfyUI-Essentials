@@ -1,7 +1,32 @@
 import random
 import math
 
-class IntMathOperation:
+class BaseMathOperation:
+    """
+    Base class for math operations to reduce duplication
+    """
+    def _perform_calculation(self, a, b, operation, is_int=True):
+        if operation == "add":
+            res = a + b
+        elif operation == "subtract":
+            res = a - b
+        elif operation == "multiply":
+            res = a * b
+        elif operation == "divide":
+            res = a / b if b != 0 else 0
+        elif operation == "modulo":
+            res = a % b if b != 0 else 0
+        elif operation == "power":
+            res = math.pow(a, b)
+        else:
+            res = 0
+        
+        if is_int:
+            return (int(res), float(res))
+        else:
+            return (float(res), int(res))
+
+class IntMathOperation(BaseMathOperation):
     """
     Node for performing basic integer math operations
     """
@@ -21,25 +46,10 @@ class IntMathOperation:
     CATEGORY = "DebugPadawan/Math"
 
     def perform_math(self, a, b, operation):
-        if operation == "add":
-            res = a + b
-        elif operation == "subtract":
-            res = a - b
-        elif operation == "multiply":
-            res = a * b
-        elif operation == "divide":
-            res = a / b if b != 0 else 0
-        elif operation == "modulo":
-            res = a % b if b != 0 else 0
-        elif operation == "power":
-            res = math.pow(a, b)
-        else:
-            res = 0
-            
-        return (int(res), float(res))
+        return self._perform_calculation(a, b, operation, is_int=True)
 
 
-class FloatMathOperation:
+class FloatMathOperation(BaseMathOperation):
     """
     Node for performing basic float math operations
     """
@@ -59,20 +69,7 @@ class FloatMathOperation:
     CATEGORY = "DebugPadawan/Math"
 
     def perform_math(self, a, b, operation):
-        if operation == "add":
-            res = a + b
-        elif operation == "subtract":
-            res = a - b
-        elif operation == "multiply":
-            res = a * b
-        elif operation == "divide":
-            res = a / b if b != 0 else 0.0
-        elif operation == "power":
-            res = math.pow(a, b)
-        else:
-            res = 0.0
-            
-        return (float(res), int(res))
+        return self._perform_calculation(a, b, operation, is_int=False)
 
 
 class RandomGenerator:

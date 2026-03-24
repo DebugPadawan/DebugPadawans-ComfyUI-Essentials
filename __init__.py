@@ -13,6 +13,8 @@ from .nodes.json import NODE_CLASS_MAPPINGS as JSON_NODES
 from .nodes.json import NODE_DISPLAY_NAME_MAPPINGS as JSON_DISPLAY_NAMES
 from .nodes.image import NODE_CLASS_MAPPINGS as IMAGE_NODES
 from .nodes.image import NODE_DISPLAY_NAME_MAPPINGS as IMAGE_DISPLAY_NAMES
+from .nodes.color_palette import NODE_CLASS_MAPPINGS as COLOR_PALETTE_NODES
+from .nodes.color_palette import NODE_DISPLAY_NAME_MAPPINGS as COLOR_PALETTE_DISPLAY_NAMES
 from .nodes.math_nodes import NODE_CLASS_MAPPINGS as MATH_NODES
 from .nodes.math_nodes import NODE_DISPLAY_NAME_MAPPINGS as MATH_DISPLAY_NAMES
 from .nodes.list_nodes import NODE_CLASS_MAPPINGS as LIST_NODES
@@ -30,6 +32,7 @@ NODE_CLASS_MAPPINGS = {
     **TIMING_NODES,
     **JSON_NODES,
     **IMAGE_NODES,
+    **COLOR_PALETTE_NODES,
     **MATH_NODES,
     **LIST_NODES,
     **JSON_TO_TEXT_NODES,
@@ -42,6 +45,7 @@ NODE_DISPLAY_NAME_MAPPINGS = {
     **TIMING_DISPLAY_NAMES,
     **JSON_DISPLAY_NAMES,
     **IMAGE_DISPLAY_NAMES,
+    **COLOR_PALETTE_DISPLAY_NAMES,
     **MATH_DISPLAY_NAMES,
     **LIST_DISPLAY_NAMES,
     **JSON_TO_TEXT_DISPLAY_NAMES,
@@ -51,5 +55,5 @@ NODE_DISPLAY_NAME_MAPPINGS = {
 __all__ = ['NODE_CLASS_MAPPINGS', 'NODE_DISPLAY_NAME_MAPPINGS']
 
 # Version info
-__version__ = "1.1.0"
+__version__ = "1.2.0"
 __author__ = "DebugPadawan"
