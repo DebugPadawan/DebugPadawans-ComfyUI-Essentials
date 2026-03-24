@@ -7,7 +7,7 @@
 [![Python](https://img.shields.io/badge/Python-3.8+-blue.svg)](https://python.org)
 [![ComfyUI](https://img.shields.io/badge/ComfyUI-Compatible-green.svg)](https://github.com/comfyanonymous/ComfyUI)
 [![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![Version](https://img.shields.io/badge/Version-1.2.1-informational.svg)](https://github.com/DebugPadawan/DebugPadawans-ComfyUI-Essentials/releases)
+[![Version](https://img.shields.io/badge/Version-1.3.0-informational.svg)](https://github.com/DebugPadawan/DebugPadawans-ComfyUI-Essentials/releases)
 [![GitHub Stars](https://img.shields.io/github/stars/DebugPadawan/DebugPadawans-ComfyUI-Essentials.svg)](https://github.com/DebugPadawan/DebugPadawans-ComfyUI-Essentials/stargazers)
 
 </div>
@@ -192,6 +192,112 @@ Output: "The result of 2 plus 3 is 5"
 ```
 
 Useful for constructing dynamic prompts, filenames, messages, or URLs from multiple pieces of data.
+
+</details>
+
+<details>
+<summary><b>🔍 Text Compare</b> - Compare two strings with various modes</summary>
+
+**Category:** `DebugPadawan/Text`
+
+Compares two text strings and returns a boolean result based on the comparison mode.
+
+**📥 Inputs:**
+- `text_a` *(String)*: First text to compare
+- `text_b` *(String)*: Second text to compare
+- `mode` *(List)*: Comparison mode - equals, not equals, contains, starts with, ends with
+- `case_sensitive` *(Boolean, optional)*: Whether comparison is case sensitive (default: `True`)
+
+**📤 Outputs:**
+- `result` *(Boolean)*: True if comparison matches
+- `result_text` *(String)*: "True" or "False" as string
+
+**💡 Example:**
+```
+Text A: "Hello World"
+Text B: "hello"
+Mode: "contains"
+Case Sensitive: False
+Output: True
+```
+
+Useful for conditional workflow branching based on text content.
+
+</details>
+
+<details>
+<summary><b>📏 Text Length</b> - Get string length in characters, words, or lines</summary>
+
+**Category:** `DebugPadawan/Text`
+
+Measures the length of a text string in different units.
+
+**📥 Inputs:**
+- `text` *(String)*: The text to measure
+- `count_mode` *(List)*: What to count - characters, words, lines (default: `characters`)
+
+**📤 Outputs:**
+- `length` *(Integer)*: The count
+- `length_text` *(String)*: The count as a string
+
+**💡 Example:**
+```
+Text: "Hello World"
+Mode: "words"
+Output: 2
+```
+
+Useful for validating prompt lengths, counting words, or checking character limits.
+
+</details>
+
+<details>
+<summary><b>🔤 Text Case</b> - Transform text case</summary>
+
+**Category:** `DebugPadawan/Text`
+
+Transforms the case of text strings.
+
+**📥 Inputs:**
+- `text` *(String)*: The text to transform
+- `mode` *(List)*: Case mode - uppercase, lowercase, capitalize, title case, swap case
+
+**📤 Outputs:**
+- `result` *(String)*: The transformed text
+
+**💡 Example:**
+```
+Input: "hello world"
+Mode: "title case"
+Output: "Hello World"
+```
+
+Useful for normalizing prompts, formatting titles, or preparing text for processing.
+
+</details>
+
+<details>
+<summary><b>✂️ Text Trim</b> - Remove whitespace from text</summary>
+
+**Category:** `DebugPadawan/Text`
+
+Removes whitespace from text strings.
+
+**📥 Inputs:**
+- `text` *(String)*: The text to trim
+- `mode` *(List)*: Where to trim - both, left, right, all (default: `both`)
+
+**📤 Outputs:**
+- `result` *(String)*: The trimmed text
+
+**💡 Example:**
+```
+Input: "  Hello World  "
+Mode: "both"
+Output: "Hello World"
+```
+
+The "all" mode removes all whitespace and collapses multiple spaces into single spaces.
 
 </details>
 
@@ -537,7 +643,7 @@ Data → Wait (2.0s) → Processing → Wait (1.0s) → Output
 
 | Category | Nodes | Purpose |
 |----------|-------|---------|
-| **DebugPadawan/Text** | Text Splitter, Text Joiner, Text Replace, Text Regex, String Formatter | Text manipulation and processing |
+| **DebugPadawan/Text** | Text Splitter, Text Joiner, Text Replace, Text Regex, String Formatter, Text Compare, Text Length, Text Case, Text Trim | Text manipulation and processing |
 | **DebugPadawan/JSON** | TextToJSON, JSONToText | Text to JSON conversion |
 | **DebugPadawan/Debug** | Debug Print | Debugging and monitoring |
 | **DebugPadawan/Timing** | Wait | Timing control and delays |

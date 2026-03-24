@@ -1,7 +1,7 @@
 [project]
 name = "debugpadawans-comfyui-essentials"
 description = "Essential custom nodes for ComfyUI workflows"
-version = "1.0.0"
+version = "1.3.0"
 license = {file = "LICENSE"} 
 # classifiers = [
 #     # For OS-independent nodes (works on all operating systems)

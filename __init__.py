@@ -24,6 +24,8 @@ from .nodes.json_to_text import NODE_CLASS_MAPPINGS as JSON_TO_TEXT_NODES
 from .nodes.json_to_text import NODE_DISPLAY_NAME_MAPPINGS as JSON_TO_TEXT_DISPLAY_NAMES
 from .nodes.string_formatter import NODE_CLASS_MAPPINGS as STRING_FORMATTER_NODES
 from .nodes.string_formatter import NODE_DISPLAY_NAME_MAPPINGS as STRING_FORMATTER_DISPLAY_NAMES
+from .nodes.text_compare import NODE_CLASS_MAPPINGS as TEXT_COMPARE_NODES
+from .nodes.text_compare import NODE_DISPLAY_NAME_MAPPINGS as TEXT_COMPARE_DISPLAY_NAMES
 
 # Combine all node mappings
 NODE_CLASS_MAPPINGS = {
@@ -37,6 +39,7 @@ NODE_CLASS_MAPPINGS = {
     **LIST_NODES,
     **JSON_TO_TEXT_NODES,
     **STRING_FORMATTER_NODES,
+    **TEXT_COMPARE_NODES,
 }
 
 NODE_DISPLAY_NAME_MAPPINGS = {
@@ -50,10 +53,11 @@ NODE_DISPLAY_NAME_MAPPINGS = {
     **LIST_DISPLAY_NAMES,
     **JSON_TO_TEXT_DISPLAY_NAMES,
     **STRING_FORMATTER_DISPLAY_NAMES,
+    **TEXT_COMPARE_DISPLAY_NAMES,
 }
 
 __all__ = ['NODE_CLASS_MAPPINGS', 'NODE_DISPLAY_NAME_MAPPINGS']
 
 # Version info
-__version__ = "1.2.1"
+__version__ = "1.3.0"
 __author__ = "DebugPadawan"
