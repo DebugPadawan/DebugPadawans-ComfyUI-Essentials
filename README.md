@@ -259,6 +259,43 @@ Useful for dynamic resizing, conditional logic based on aspect ratio, or passing
 
 ---
 
+### 🧮 Math & Random
+
+<details>
+<summary><b>➕ Int/Float Math Operation</b> - Perform basic arithmetic</summary>
+
+**Category:** `DebugPadawan/Math`
+
+Performs simple math operations (add, subtract, multiply, divide, modulo, power) on integers or floats.
+
+**📥 Inputs:**
+- `a`, `b` *(Int/Float)*: The values to calculate
+- `operation` *(List)*: The type of mathematical operation
+
+**📤 Outputs:**
+- `result` *(Int/Float)*: The calculated value (returns both Int and Float variations)
+
+</details>
+
+<details>
+<summary><b>🎲 Random Generator</b> - Seed-based random values</summary>
+
+**Category:** `DebugPadawan/Math`
+
+Generates a random float or integer between a min and max value, driven by a specific seed for reproducibility.
+
+**📥 Inputs:**
+- `seed` *(Integer)*: Seed for the random generator
+- `min_val`, `max_val` *(Float/Integer)*: The range bounds
+- `mode` *(List)*: Whether to generate a float or an int
+
+**📤 Outputs:**
+- `val` *(Float/Integer)*: The random value (returns both Int and Float formats)
+
+</details>
+
+---
+
 ### 🔧 Utility Nodes
 
 <details>
@@ -338,6 +375,7 @@ Data → Wait (2.0s) → Processing → Wait (1.0s) → Output
 | **DebugPadawan/Utilities** | List Info | Data analysis helpers |
 | **DebugPadawan/Logic** | Conditional String | Conditional operations |
 | **DebugPadawan/Image** | Image Info | Image tensor analysis |
+| **DebugPadawan/Math** | Int Math Operation, Float Math Operation, Random Generator | Basic arithmetic and random number generation |
 
 ---
 
