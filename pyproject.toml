@@ -28,7 +28,7 @@ Documentation = "https://github.com/DebugPadawan/DebugPadawans-ComfyUI-Essential
 "Bug Tracker" = "https://github.com/DebugPadawan/DebugPadawans-ComfyUI-Essentials/issues"
 
 [tool.comfy]
-PublisherId = ""
+PublisherId = "debugpadawan"
 DisplayName = "DebugPadawans-ComfyUI-Essentials"
 Icon = ""
 includes = [] 
