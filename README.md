@@ -7,6 +7,7 @@
 [![Python](https://img.shields.io/badge/Python-3.8+-blue.svg)](https://python.org)
 [![ComfyUI](https://img.shields.io/badge/ComfyUI-Compatible-green.svg)](https://github.com/comfyanonymous/ComfyUI)
 [![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Version](https://img.shields.io/badge/Version-1.2.1-informational.svg)](https://github.com/DebugPadawan/DebugPadawans-ComfyUI-Essentials/releases)
 [![GitHub Stars](https://img.shields.io/github/stars/DebugPadawan/DebugPadawans-ComfyUI-Essentials.svg)](https://github.com/DebugPadawan/DebugPadawans-ComfyUI-Essentials/stargazers)
 
 </div>
