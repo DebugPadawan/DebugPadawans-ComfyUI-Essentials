@@ -7,7 +7,7 @@
 [![Python](https://img.shields.io/badge/Python-3.8+-blue.svg)](https://python.org)
 [![ComfyUI](https://img.shields.io/badge/ComfyUI-Compatible-green.svg)](https://github.com/comfyanonymous/ComfyUI)
 [![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![Version](https://img.shields.io/badge/Version-1.3.0-informational.svg)](https://github.com/DebugPadawan/DebugPadawans-ComfyUI-Essentials/releases)
+[![Version](https://img.shields.io/badge/Version-1.4.0-informational.svg)](https://github.com/DebugPadawan/DebugPadawans-ComfyUI-Essentials/releases)
 [![GitHub Stars](https://img.shields.io/github/stars/DebugPadawan/DebugPadawans-ComfyUI-Essentials.svg)](https://github.com/DebugPadawan/DebugPadawans-ComfyUI-Essentials/stargazers)
 
 </div>
@@ -553,6 +553,375 @@ Get the first N images of a batch, skip the first item, or take a specific range
 
 ---
 
+### 🔄 Type Conversion
+
+<details>
+<summary><b>🔀 Type Converter</b> - Universal type conversion</summary>
+
+**Category:** `DebugPadawan/Conversion`
+
+Converts between different data types: string, int, float, and boolean.
+
+**📥 Inputs:**
+- `value` *(Any)*: The value to convert
+- `output_type` *(List)*: Target type - string, int, float, boolean
+
+**📤 Outputs:**
+- `converted` *(Any)*: The converted value
+
+**💡 Example:**
+```
+Input: 42 (int)
+Type: "string"
+Output: "42"
+
+Input: "3.14" (string)
+Type: "float"
+Output: 3.14
+```
+
+Convert any value to any type, workflow data type compatibility, normalize inputs for nodes that require specific types.
+
+</details>
+
+<details>
+<summary><b>🔢 Int to Float</b> - Convert integer to float</summary>
+
+**Category:** `DebugPadawan/Conversion`
+
+Converts an integer to a floating-point number.
+
+**📥 Inputs:**
+- `value` *(Integer)*: The integer to convert
+
+**📤 Outputs:**
+- `float_value` *(Float)*: The converted float
+
+Useful for nodes that only accept float inputs.
+
+</details>
+
+<details>
+<summary><b>📐 Float to Int</b> - Convert float to integer</summary>
+
+**Category:** `DebugPadawan/Conversion`
+
+Converts a float to an integer with rounding mode control.
+
+**📥 Inputs:**
+- `value` *(Float)*: The float to convert
+- `mode` *(List)*: Rounding mode - round, floor, ceil
+
+**📤 Outputs:**
+- `int_value` *(Integer)*: The converted integer
+
+**💡 Example:**
+```
+Input: 3.7
+Mode: "floor"
+Output: 3
+
+Input: 3.2
+Mode: "ceil"
+Output: 4
+```
+
+</details>
+
+<details>
+<summary><b>🔤 String to Int</b> - Parse string as integer</summary>
+
+**Category:** `DebugPadawan/Conversion`
+
+Converts a string to an integer.
+
+**📥 Inputs:**
+- `value` *(String)*: The string to parse
+
+**📤 Outputs:**
+- `int_value` *(Integer)*: The parsed integer
+
+Handles strings like "42" or "3.14" (converts via float first).
+
+</details>
+
+<details>
+<summary><b>🔤 String to Float</b> - Parse string as float</summary>
+
+**Category:** `DebugPadawan/Conversion`
+
+Converts a string to a floating-point number.
+
+**📥 Inputs:**
+- `value` *(String)*: The string to parse
+
+**📤 Outputs:**
+- `float_value` *(Float)*: The parsed float
+
+**💡 Example:**
+```
+Input: "3.14159"
+Output: 3.14159
+```
+
+</details>
+
+<details>
+<summary><b>🔤 String to Boolean</b> - Parse string as boolean</summary>
+
+**Category:** `DebugPadawan/Conversion`
+
+Converts a string to a boolean value.
+
+**📥 Inputs:**
+- `value` *(String)*: The string to parse
+
+**📤 Outputs:**
+- `bool_value` *(Boolean)*: The parsed boolean
+
+**💡 Example:**
+```
+Input: "true" → Output: True
+Input: "yes" → Output: True
+Input: "false" → Output: False
+Input: "0" → Output: False
+```
+
+Recognizes: true/false, yes/no, 1/0, on/off (case insensitive).
+
+</details>
+
+<details>
+<summary><b>🔢 Number to String</b> - Format number as string</summary>
+
+**Category:** `DebugPadawan/Conversion`
+
+Converts a number to a string with decimal precision control.
+
+**📥 Inputs:**
+- `value` *(Float)*: The number to convert
+- `decimal_places` *(Integer)*: Number of decimal places (0-10)
+
+**📤 Outputs:**
+- `string_value` *(String)*: The formatted string
+
+**💡 Example:**
+```
+Input: 3.14159
+Decimal Places: 2
+Output: "3.14"
+
+Input: 3.14159
+Decimal Places: 0
+Output: "3"
+```
+
+</details>
+
+---
+
+### 🔢 Number Utilities
+
+<details>
+<summary><b>📏 Number Clamp</b> - Clamp value between min and max</summary>
+
+**Category:** `DebugPadawan/Number`
+
+Clamps a number to stay within a specified range.
+
+**📥 Inputs:**
+- `value` *(Float)*: The value to clamp
+- `min_val` *(Float)*: Minimum allowed value (default: 0.0)
+- `max_val` *(Float)*: Maximum allowed value (default: 1.0)
+
+**📤 Outputs:**
+- `clamped` *(Float)*: The clamped value
+
+**💡 Example:**
+```
+Input: 1.5, min: 0.0, max: 1.0
+Output: 1.0
+
+Input: -0.5, min: 0.0, max: 1.0
+Output: 0.0
+```
+
+Useful for ensuring values stay within valid ranges, like RGB values or percentages.
+
+</details>
+
+<details>
+<summary><b>🔢 Number Round</b> - Round with precision control</summary>
+
+**Category:** `DebugPadawan/Number`
+
+Rounds a number to a specified number of decimal places.
+
+**📥 Inputs:**
+- `value` *(Float)*: The value to round
+- `decimal_places` *(Integer)*: Number of decimal places (0-10)
+
+**📤 Outputs:**
+- `rounded` *(Float)*: The rounded value
+- `rounded_string` *(String)*: The rounded value as a formatted string
+
+**💡 Example:**
+```
+Input: 3.14159
+Decimal Places: 2
+Output: 3.14, "3.14"
+```
+
+</details>
+
+<details>
+<summary><b>📊 Number Range</b> - Generate number sequence</summary>
+
+**Category:** `DebugPadawan/Number`
+
+Generates a list of numbers from start to end with a step.
+
+**📥 Inputs:**
+- `start` *(Integer)*: Starting value
+- `end` *(Integer)*: Ending value (exclusive)
+- `step` *(Integer)*: Step increment
+
+**📤 Outputs:**
+- `range_list` *(List)*: List of integers
+- `count` *(Integer)*: Number of items
+
+**💡 Example:**
+```
+Start: 0, End: 10, Step: 2
+Output: [0, 2, 4, 6, 8], 5
+```
+
+</details>
+
+<details>
+<summary><b>⚖️ Number Compare</b> - Compare two numbers</summary>
+
+**Category:** `DebugPadawan/Number`
+
+Compares two numbers and returns a boolean result.
+
+**📥 Inputs:**
+- `a` *(Float)*: First value
+- `b` *(Float)*: Second value
+- `comparison` *(List)*: Comparison type - equal, not equal, greater, less, greater or equal, less or equal
+
+**📤 Outputs:**
+- `result` *(Boolean)*: Comparison result
+- `result_text` *(String)*: Result as text ("True"/"False")
+
+Useful for conditional workflow branching based on numeric values.
+
+</details>
+
+<details>
+<summary><b>📏 Number Absolute</b> - Get absolute value</summary>
+
+**Category:** `DebugPadawan/Number`
+
+Returns the absolute (positive) value of a number.
+
+**📥 Inputs:**
+- `value` *(Float)*: The value
+
+**📤 Outputs:**
+- `absolute` *(Float)*: The absolute value
+
+**💡 Example:**
+```
+Input: -5.3
+Output: 5.3
+```
+
+</details>
+
+<details>
+<summary><b>➖ Number Sign</b> - Get sign of a number</summary>
+
+**Category:** `DebugPadawan/Number`
+
+Returns the sign of a number (-1, 0, or 1).
+
+**📥 Inputs:**
+- `value` *(Float)*: The value
+
+**📤 Outputs:**
+- `sign` *(Integer)*: -1 (negative), 0 (zero), or 1 (positive)
+- `sign_text` *(String)*: "negative", "zero", or "positive"
+
+**💡 Example:**
+```
+Input: 42 → Output: 1, "positive"
+Input: -3.5 → Output: -1, "negative"
+Input: 0 → Output: 0, "zero"
+```
+
+</details>
+
+<details>
+<summary><b>🔄 Number Remap</b> - Remap value between ranges</summary>
+
+**Category:** `DebugPadawan/Number`
+
+Remaps a value from one range to another (linear interpolation).
+
+**📥 Inputs:**
+- `value` *(Float)*: The value to remap
+- `from_min` *(Float)*: Source range minimum
+- `from_max` *(Float)*: Source range maximum
+- `to_min` *(Float)*: Target range minimum
+- `to_max` *(Float)*: Target range maximum
+
+**📤 Outputs:**
+- `remapped` *(Float)*: The remapped value
+
+**💡 Example:**
+```
+Input: 0.5, from: [0, 1], to: [0, 100]
+Output: 50.0
+
+Input: 25, from: [0, 100], to: [0, 1]
+Output: 0.25
+```
+
+Perfect for normalizing values or converting between different scales.
+
+</details>
+
+<details>
+<summary><b>📊 Number Lerp</b> - Linear interpolation</summary>
+
+**Category:** `DebugPadawan/Number`
+
+Performs linear interpolation between two values.
+
+**📥 Inputs:**
+- `a` *(Float)*: Start value
+- `b` *(Float)*: End value
+- `t` *(Float)*: Interpolation factor (0.0 to 1.0)
+
+**📤 Outputs:**
+- `lerped` *(Float)*: The interpolated value
+
+**💡 Example:**
+```
+a: 0, b: 100, t: 0.5
+Output: 50.0
+
+a: 10, b: 20, t: 0.25
+Output: 12.5
+```
+
+Useful for smooth transitions and blending values.
+
+</details>
+
+---
+
 ### 🔧 Utility Nodes
 
 <details>
@@ -652,6 +1021,8 @@ Data → Wait (2.0s) → Processing → Wait (1.0s) → Output
 | **DebugPadawan/Image** | Image Info, Color Palette Extractor | Image tensor analysis and color extraction |
 | **DebugPadawan/Math** | Int/Float Math Operation, Random Generator | Basic arithmetic and random number generation |
 | **DebugPadawan/List** | Get List Item, List Slicer | List manipulation |
+| **DebugPadawan/Conversion** | Type Converter, Int to Float, Float to Int, String to Int, String to Float, String to Boolean, Number to String | Type conversion utilities |
+| **DebugPadawan/Number** | Number Clamp, Number Round, Number Range, Number Compare, Number Absolute, Number Sign, Number Remap, Number Lerp | Number formatting and utilities |
 
 ---
 
