@@ -1,9 +1,11 @@
 import numpy as np
 import torch
+from typing import Tuple
 
 class ColorPaletteExtractor:
     """
-    Node for extracting the most dominant colors from an image
+    Node for extracting the most dominant colors from an image.
+    Uses quantization and frequency analysis for speed and accuracy.
     """
     @classmethod
     def INPUT_TYPES(cls):
@@ -19,45 +21,49 @@ class ColorPaletteExtractor:
     FUNCTION = "extract"
     CATEGORY = "DebugPadawan/Image"
 
-    def extract(self, image, color_count):
+    def extract(self, image: torch.Tensor, color_count: int) -> Tuple[str, str, torch.Tensor]:
         # Image is typically [B, H, W, C]
-        # We'll take the first image in the batch
+        # We'll take the first image in the batch for analysis
         img = image[0]
-        h, w, c = img.shape
+        c = img.shape[-1]
         
         # Rescale for performance using torch
         img_torch = img.permute(2, 0, 1).unsqueeze(0)  # [1, C, H, W]
-        img_small = torch.nn.functional.interpolate(img_torch, size=(128, 128), mode='area')
-        img_np = img_small.squeeze(0).permute(1, 2, 0).numpy()
+        # Using a smaller size for faster processing
+        img_small = torch.nn.functional.interpolate(img_torch, size=(64, 64), mode='area')
+        img_np = img_small.squeeze(0).permute(1, 2, 0).cpu().numpy()
         
         # Flatten and scale to 0-255
-        pixels = img_np.reshape(-1, c) * 255.0
+        pixels = (img_np.reshape(-1, c) * 255.0).astype(np.int32)
         
-        # Simple quantization
-        pixels = (pixels / 16).astype(int) * 16
+        # Simple quantization (group colors together)
+        # We group by 16 levels to reduce noise
+        pixels = (pixels // 16) * 16
         
-        # Convert to hex strings
-        hex_colors = []
-        for p in pixels:
-            r, g, b = p
-            hex_colors.append(f'#{r:02x}{g:02x}{b:02x}')
+        # Map each pixel to a unique integer color representation (R << 16 | G << 8 | B)
+        # This is much faster than string formatting for all pixels
+        rgb_int = (pixels[:, 0] << 16) | (pixels[:, 1] << 8) | pixels[:, 2]
             
         # Count frequencies
-        unique, counts = np.unique(hex_colors, return_counts=True)
+        unique, counts = np.unique(rgb_int, return_counts=True)
         sorted_indices = np.argsort(-counts)
         
-        top_hex = unique[sorted_indices[:color_count]]
-        dominant = top_hex[0] if len(top_hex) > 0 else "#000000"
+        top_colors = unique[sorted_indices[:color_count]]
         
-        # Create a palette image
-        palette_h = 64
-        palette_w = color_count * 64
-        palette_img = np.zeros((palette_h, palette_w, 3), dtype=np.float32)
+        def int_to_hex(val):
+             return f"#{val >> 16 & 0xFF:02x}{val >> 8 & 0xFF:02x}{val & 0xFF:02x}"
+             
+        top_hex = [int_to_hex(c) for c in top_colors]
+        dominant = top_hex[0] if top_hex else "#000000"
         
-        for i, hex_color in enumerate(top_hex):
-            r = int(hex_color[1:3], 16) / 255.0
-            g = int(hex_color[3:5], 16) / 255.0
-            b = int(hex_color[5:7], 16) / 255.0
+        # Create a visual palette image
+        p_h, p_w = 64, color_count * 64
+        palette_img = np.zeros((p_h, p_w, 3), dtype=np.float32)
+        
+        for i, val in enumerate(top_colors):
+            r = ((val >> 16) & 0xFF) / 255.0
+            g = ((val >> 8) & 0xFF) / 255.0
+            b = (val & 0xFF) / 255.0
             palette_img[:, i*64:(i+1)*64, 0] = r
             palette_img[:, i*64:(i+1)*64, 1] = g
             palette_img[:, i*64:(i+1)*64, 2] = b

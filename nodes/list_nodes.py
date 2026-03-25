@@ -1,14 +1,14 @@
 import torch
 import random
-
+from typing import List, Any, Tuple, Union
 
 class GetListItem:
     @classmethod
-    def INPUT_TYPES(s):
+    def INPUT_TYPES(cls):
         return {
             "required": {
                 "input_list": ("*", {"forceInput": True}),
-                "index": ("INT", {"default": 0, "min": 0, "max": 0xFFFFFFFFFFFFFFFF}),
+                "index": ("INT", {"default": 0, "min": -1000000, "max": 1000000}),
             }
         }
 
@@ -17,36 +17,101 @@ class GetListItem:
     FUNCTION = "get_item"
     CATEGORY = "DebugPadawan/List"
 
-    def get_item(self, input_list, index):
+    def get_item(self, input_list: Any, index: int) -> Tuple[Any]:
         if not isinstance(input_list, list):
-            # Attempt to convert to list if it's a ComfyUI tensor batch or similar
             if isinstance(input_list, torch.Tensor):
                 input_list = input_list.tolist()
             elif hasattr(input_list, '__iter__') and not isinstance(input_list, str):
                 input_list = list(input_list)
             else:
-                # If it's a single item, wrap it in a list to allow indexing
                 input_list = [input_list]
 
         if not input_list:
-            raise ValueError("Input list is empty.")
-        if index < 0 or index >= len(input_list):
-            raise IndexError(f"Index {index} out of bounds for list of length {len(input_list)}.")
+            return (None,)
+            
+        # Handle negative indexing
+        try:
+            return (input_list[index],)
+        except IndexError:
+            return (input_list[-1] if index >= 0 else input_list[0],)
 
-        return (input_list[index],)
 
-
-class ListSlicer:
+class ListCreate:
     """
-    Node for getting a slice of a list
+    Node for creating a list from up to 8 individual inputs.
+    """
+    @classmethod
+    def INPUT_TYPES(cls):
+        return {
+            "required": {},
+            "optional": {
+                f"input_{i}": ("*", {"forceInput": True}) for i in range(1, 9)
+            }
+        }
+    
+    RETURN_TYPES = ("LIST", "INT")
+    RETURN_NAMES = ("list", "count")
+    FUNCTION = "create_list"
+    CATEGORY = "DebugPadawan/List"
+    
+    def create_list(self, **kwargs) -> Tuple[List[Any], int]:
+        result = [v for k, v in kwargs.items() if v is not None]
+        return (result, len(result))
+
+
+class ListFilter:
+    """
+    Node for filtering a list based on string matching or numeric bounds.
     """
     @classmethod
     def INPUT_TYPES(cls):
         return {
             "required": {
                 "input_list": ("LIST",),
+                "filter_mode": (["contains", "starts_with", "ends_with", "regex", "equals"],),
+                "filter_value": ("STRING", {"default": ""}),
+            },
+            "optional": {
+                "exclude": ("BOOLEAN", {"default": False}),
+            }
+        }
+        
+    RETURN_TYPES = ("LIST", "INT")
+    RETURN_NAMES = ("filtered_list", "count")
+    FUNCTION = "filter_list"
+    CATEGORY = "DebugPadawan/List"
+    
+    def filter_list(self, input_list: List[Any], filter_mode: str, filter_value: str, exclude: bool = False) -> Tuple[List[Any], int]:
+        import re
+        result = []
+        for item in input_list:
+            s_item = str(item)
+            match = False
+            
+            if filter_mode == "contains": match = filter_value in s_item
+            elif filter_mode == "starts_with": match = s_item.startswith(filter_value)
+            elif filter_mode == "ends_with": match = s_item.endswith(filter_value)
+            elif filter_mode == "equals": match = s_item == filter_value
+            elif filter_mode == "regex":
+                try:
+                    match = bool(re.search(filter_value, s_item))
+                except:
+                    match = False
+            
+            if exclude: match = not match
+            if match: result.append(item)
+            
+        return (result, len(result))
+
+
+class ListSlicer:
+    @classmethod
+    def INPUT_TYPES(cls):
+        return {
+            "required": {
+                "input_list": ("LIST",),
                 "start": ("INT", {"default": 0, "min": 0}),
-                "end": ("INT", {"default": 0, "min": 0}),
+                "end": ("INT", {"default": 1, "min": 0}),
             }
         }
     
@@ -55,8 +120,9 @@ class ListSlicer:
     FUNCTION = "slice_list"
     CATEGORY = "DebugPadawan/List"
 
-    def slice_list(self, input_list, start, end):
-        if end == 0:
+    def slice_list(self, input_list: List, start: int, end: int) -> Tuple[List, int]:
+        # If end is 0 or less than start, we treat as "to the end" or at least 1 item
+        if end <= start:
             res = input_list[start:]
         else:
             res = input_list[start:end]
@@ -64,9 +130,6 @@ class ListSlicer:
 
 
 class ListInfo:
-    """
-    Node for getting information about a list
-    """
     @classmethod
     def INPUT_TYPES(cls):
         return {
@@ -77,24 +140,16 @@ class ListInfo:
     
     RETURN_TYPES = ("INT", "STRING", "STRING")
     RETURN_NAMES = ("count", "first_item", "last_item")
-    
     FUNCTION = "get_list_info"
-    CATEGORY = "DebugPadawan/Utilities"
+    CATEGORY = "DebugPadawan/List"
     
-    def get_list_info(self, input_list):
-        count = len(input_list)
-        first_item = str(input_list[0]) if input_list else ""
-        last_item = str(input_list[-1]) if input_list else ""
-        
-        return (count, first_item, last_item)
+    def get_list_info(self, input_list: List) -> Tuple[int, str, str]:
+        if not input_list:
+            return (0, "", "")
+        return (len(input_list), str(input_list[0]), str(input_list[-1]))
 
 
 class RandomListSelector:
-    """
-    Node for randomly selecting one or more items from a list
-    Supports seeded randomness for reproducible selections
-    """
-    
     @classmethod
     def INPUT_TYPES(cls):
         return {
@@ -108,19 +163,15 @@ class RandomListSelector:
     
     RETURN_TYPES = ("LIST", "INT", "*")
     RETURN_NAMES = ("selected_items", "count", "first_item")
-    
     FUNCTION = "select_random"
     CATEGORY = "DebugPadawan/List"
     
-    def select_random(self, input_list, seed, count, allow_duplicates):
+    def select_random(self, input_list: List, seed: int, count: int, allow_duplicates: bool) -> Tuple[List, int, Any]:
         if not input_list:
-            raise ValueError("Input list is empty.")
+            return ([], 0, None)
         
         rng = random.Random(seed)
         list_len = len(input_list)
-        
-        if count > list_len and not allow_duplicates:
-            count = list_len
         
         if allow_duplicates:
             selected = [rng.choice(input_list) for _ in range(count)]
@@ -132,11 +183,6 @@ class RandomListSelector:
 
 
 class ListShuffler:
-    """
-    Node for shuffling a list with a deterministic seed
-    Useful for randomizing order while maintaining reproducibility
-    """
-    
     @classmethod
     def INPUT_TYPES(cls):
         return {
@@ -148,65 +194,54 @@ class ListShuffler:
     
     RETURN_TYPES = ("LIST", "INT")
     RETURN_NAMES = ("shuffled_list", "count")
-    
     FUNCTION = "shuffle_list"
     CATEGORY = "DebugPadawan/List"
     
-    def shuffle_list(self, input_list, seed):
+    def shuffle_list(self, input_list: List, seed: int) -> Tuple[List, int]:
         if not input_list:
             return ([], 0)
-        
-        # Create a copy to avoid modifying the original
         shuffled = list(input_list)
-        rng = random.Random(seed)
-        rng.shuffle(shuffled)
-        
+        random.Random(seed).shuffle(shuffled)
         return (shuffled, len(shuffled))
 
 
 class ListMerger:
-    """
-    Node for merging multiple lists together
-    Supports concatenation and interleaving modes
-    """
-    
     @classmethod
     def INPUT_TYPES(cls):
         return {
             "required": {
                 "list_a": ("LIST",),
                 "list_b": ("LIST",),
-                "mode": (["concatenate", "interleave"],),
+                "mode": (["concatenate", "interleave", "union"],),
             }
         }
     
     RETURN_TYPES = ("LIST", "INT")
     RETURN_NAMES = ("merged_list", "count")
-    
     FUNCTION = "merge_lists"
     CATEGORY = "DebugPadawan/List"
     
-    def merge_lists(self, list_a, list_b, mode):
+    def merge_lists(self, list_a: List, list_b: List, mode: str) -> Tuple[List, int]:
         if mode == "concatenate":
             result = list_a + list_b
-        else:  # interleave
+        elif mode == "interleave":
             result = []
-            max_len = max(len(list_a), len(list_b))
-            for i in range(max_len):
-                if i < len(list_a):
-                    result.append(list_a[i])
-                if i < len(list_b):
-                    result.append(list_b[i])
+            for i in range(max(len(list_a), len(list_b))):
+                if i < len(list_a): result.append(list_a[i])
+                if i < len(list_b): result.append(list_b[i])
+        elif mode == "union":
+            seen = set()
+            result = []
+            for item in list_a + list_b:
+                s = str(item)
+                if s not in seen:
+                    seen.add(s)
+                    result.append(item)
         
         return (result, len(result))
 
 
 class ListDeduplicator:
-    """
-    Node for removing duplicate items from a list
-    Preserves original order
-    """
-    
     @classmethod
     def INPUT_TYPES(cls):
         return {
@@ -217,43 +252,41 @@ class ListDeduplicator:
     
     RETURN_TYPES = ("LIST", "INT", "INT")
     RETURN_NAMES = ("deduplicated_list", "count", "removed_count")
-    
     FUNCTION = "deduplicate"
     CATEGORY = "DebugPadawan/List"
     
-    def deduplicate(self, input_list):
-        seen = []
+    def deduplicate(self, input_list: List) -> Tuple[List, int, int]:
+        seen = set()
         result = []
         for item in input_list:
-            # Convert to string for comparison (handles non-hashable types)
             item_key = str(item)
             if item_key not in seen:
-                seen.append(item_key)
+                seen.add(item_key)
                 result.append(item)
         
-        removed = len(input_list) - len(result)
-        return (result, len(result), removed)
+        return (result, len(result), len(input_list) - len(result))
 
 
 NODE_CLASS_MAPPINGS = {
     "DebugPadawan_GetListItem": GetListItem,
+    "DebugPadawan_ListCreate": ListCreate,
+    "DebugPadawan_ListFilter": ListFilter,
     "DebugPadawan_ListSlicer": ListSlicer,
     "DebugPadawan_ListInfo": ListInfo,
     "DebugPadawan_RandomListSelector": RandomListSelector,
     "DebugPadawan_ListShuffler": ListShuffler,
     "DebugPadawan_ListMerger": ListMerger,
     "DebugPadawan_ListDeduplicator": ListDeduplicator,
-    # Alias for backward compatibility
-    "DP_GetListItem": GetListItem,
 }
 
 NODE_DISPLAY_NAME_MAPPINGS = {
     "DebugPadawan_GetListItem": "Get List Item",
+    "DebugPadawan_ListCreate": "List Create (Multi-Input)",
+    "DebugPadawan_ListFilter": "List Filter",
     "DebugPadawan_ListSlicer": "List Slicer",
     "DebugPadawan_ListInfo": "List Info",
     "DebugPadawan_RandomListSelector": "Random List Selector",
     "DebugPadawan_ListShuffler": "List Shuffler",
     "DebugPadawan_ListMerger": "List Merger",
     "DebugPadawan_ListDeduplicator": "List Deduplicator",
-    "DP_GetListItem": "Get List Item (Legacy)",
 }

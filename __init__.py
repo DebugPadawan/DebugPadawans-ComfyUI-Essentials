@@ -1,71 +1,44 @@
-"""
-DebugPadawan's ComfyUI Essentials
-A collection of essential custom nodes for ComfyUI
-"""
+import os
+import importlib
+import glob
 
-from .nodes.text_processing import NODE_CLASS_MAPPINGS as TEXT_NODES
-from .nodes.text_processing import NODE_DISPLAY_NAME_MAPPINGS as TEXT_DISPLAY_NAMES
-from .nodes.utilities import UTILITY_NODE_CLASS_MAPPINGS as UTILITY_NODES
-from .nodes.utilities import UTILITY_NODE_DISPLAY_NAME_MAPPINGS as UTILITY_DISPLAY_NAMES
-from .nodes.timing import TIMING_NODE_CLASS_MAPPINGS as TIMING_NODES
-from .nodes.timing import TIMING_NODE_DISPLAY_NAME_MAPPINGS as TIMING_DISPLAY_NAMES
-from .nodes.json import NODE_CLASS_MAPPINGS as JSON_NODES
-from .nodes.json import NODE_DISPLAY_NAME_MAPPINGS as JSON_DISPLAY_NAMES
-from .nodes.image import NODE_CLASS_MAPPINGS as IMAGE_NODES
-from .nodes.image import NODE_DISPLAY_NAME_MAPPINGS as IMAGE_DISPLAY_NAMES
-from .nodes.color_palette import NODE_CLASS_MAPPINGS as COLOR_PALETTE_NODES
-from .nodes.color_palette import NODE_DISPLAY_NAME_MAPPINGS as COLOR_PALETTE_DISPLAY_NAMES
-from .nodes.math_nodes import NODE_CLASS_MAPPINGS as MATH_NODES
-from .nodes.math_nodes import NODE_DISPLAY_NAME_MAPPINGS as MATH_DISPLAY_NAMES
-from .nodes.list_nodes import NODE_CLASS_MAPPINGS as LIST_NODES
-from .nodes.list_nodes import NODE_DISPLAY_NAME_MAPPINGS as LIST_DISPLAY_NAMES
+# Node registration dictionaries
+NODE_CLASS_MAPPINGS = {}
+NODE_DISPLAY_NAME_MAPPINGS = {}
 
-from .nodes.json_to_text import NODE_CLASS_MAPPINGS as JSON_TO_TEXT_NODES
-from .nodes.json_to_text import NODE_DISPLAY_NAME_MAPPINGS as JSON_TO_TEXT_DISPLAY_NAMES
-from .nodes.string_formatter import NODE_CLASS_MAPPINGS as STRING_FORMATTER_NODES
-from .nodes.string_formatter import NODE_DISPLAY_NAME_MAPPINGS as STRING_FORMATTER_DISPLAY_NAMES
-from .nodes.text_compare import NODE_CLASS_MAPPINGS as TEXT_COMPARE_NODES
-from .nodes.text_compare import NODE_DISPLAY_NAME_MAPPINGS as TEXT_COMPARE_DISPLAY_NAMES
-from .nodes.type_conversion import NODE_CLASS_MAPPINGS as TYPE_CONVERSION_NODES
-from .nodes.type_conversion import NODE_DISPLAY_NAME_MAPPINGS as TYPE_CONVERSION_DISPLAY_NAMES
-from .nodes.number_utils import NODE_CLASS_MAPPINGS as NUMBER_UTILS_NODES
-from .nodes.number_utils import NODE_DISPLAY_NAME_MAPPINGS as NUMBER_UTILS_DISPLAY_NAMES
+# Automatically import all .py files from the nodes directory
+nodes_dir = os.path.join(os.path.dirname(__file__), "nodes")
+node_files = glob.glob(os.path.join(nodes_dir, "*.py"))
 
-# Combine all node mappings
-NODE_CLASS_MAPPINGS = {
-    **TEXT_NODES,
-    **UTILITY_NODES,
-    **TIMING_NODES,
-    **JSON_NODES,
-    **IMAGE_NODES,
-    **COLOR_PALETTE_NODES,
-    **MATH_NODES,
-    **LIST_NODES,
-    **JSON_TO_TEXT_NODES,
-    **STRING_FORMATTER_NODES,
-    **TEXT_COMPARE_NODES,
-    **TYPE_CONVERSION_NODES,
-    **NUMBER_UTILS_NODES,
-}
+for file_path in node_files:
+    file_name = os.path.basename(file_path)
+    if file_name == "__init__.py":
+        continue
+    
+    module_name = f".nodes.{file_name[:-3]}"
+    try:
+        # Import the module
+        module = importlib.import_module(module_name, package=__package__)
+        
+        # Load mappings if they exist
+        if hasattr(module, "NODE_CLASS_MAPPINGS"):
+              NODE_CLASS_MAPPINGS.update(module.NODE_CLASS_MAPPINGS)
+        
+        # UTILITY_NODE_CLASS_MAPPINGS for backward compatibility
+        if hasattr(module, "UTILITY_NODE_CLASS_MAPPINGS"):
+            NODE_CLASS_MAPPINGS.update(module.UTILITY_NODE_CLASS_MAPPINGS)
 
-NODE_DISPLAY_NAME_MAPPINGS = {
-    **TEXT_DISPLAY_NAMES,
-    **UTILITY_DISPLAY_NAMES,
-    **TIMING_DISPLAY_NAMES,
-    **JSON_DISPLAY_NAMES,
-    **IMAGE_DISPLAY_NAMES,
-    **COLOR_PALETTE_DISPLAY_NAMES,
-    **MATH_DISPLAY_NAMES,
-    **LIST_DISPLAY_NAMES,
-    **JSON_TO_TEXT_DISPLAY_NAMES,
-    **STRING_FORMATTER_DISPLAY_NAMES,
-    **TEXT_COMPARE_DISPLAY_NAMES,
-    **TYPE_CONVERSION_DISPLAY_NAMES,
-    **NUMBER_UTILS_DISPLAY_NAMES,
-}
+        if hasattr(module, "NODE_DISPLAY_NAME_MAPPINGS"):
+            NODE_DISPLAY_NAME_MAPPINGS.update(module.NODE_DISPLAY_NAME_MAPPINGS)
+        
+        # UTILITY_NODE_DISPLAY_NAME_MAPPINGS for backward compatibility
+        if hasattr(module, "UTILITY_NODE_DISPLAY_NAME_MAPPINGS"):
+            NODE_DISPLAY_NAME_MAPPINGS.update(module.UTILITY_NODE_DISPLAY_NAME_MAPPINGS)
+            
+    except Exception as e:
+        print(f"[DebugPadawan Essentials] Failed to load module {module_name}: {e}")
 
+# Version and Metadata
 __all__ = ['NODE_CLASS_MAPPINGS', 'NODE_DISPLAY_NAME_MAPPINGS']
-
-# Version info
-__version__ = "1.5.0"
+__version__ = "1.5.1"
 __author__ = "DebugPadawan"
