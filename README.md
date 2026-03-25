@@ -7,7 +7,7 @@
 [![Python](https://img.shields.io/badge/Python-3.8+-blue.svg)](https://python.org)
 [![ComfyUI](https://img.shields.io/badge/ComfyUI-Compatible-green.svg)](https://github.com/comfyanonymous/ComfyUI)
 [![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![Version](https://img.shields.io/badge/Version-1.4.0-informational.svg)](https://github.com/DebugPadawan/DebugPadawans-ComfyUI-Essentials/releases)
+[![Version](https://img.shields.io/badge/Version-1.5.0-informational.svg)](https://github.com/DebugPadawan/DebugPadawans-ComfyUI-Essentials/releases)
 [![GitHub Stars](https://img.shields.io/github/stars/DebugPadawan/DebugPadawans-ComfyUI-Essentials.svg)](https://github.com/DebugPadawan/DebugPadawans-ComfyUI-Essentials/stargazers)
 
 </div>
@@ -301,6 +301,95 @@ The "all" mode removes all whitespace and collapses multiple spaces into single 
 
 </details>
 
+<details>
+<summary><b>🔤 Text Case Converter</b> - Transform text case styles</summary>
+
+**Category:** `DebugPadawan/Text`
+
+Converts text to different case styles for formatting prompts, filenames, and display text.
+
+**📥 Inputs:**
+- `text` *(String)*: The text to convert
+- `case_mode` *(List)*: Case style - UPPER, lower, Title Case, Sentence case, snake_case, kebab-case, camelCase, PascalCase
+
+**📤 Outputs:**
+- `converted_text` *(String)*: The converted text
+
+**💡 Example:**
+```
+Input: "hello world"
+Mode: "Title Case"
+Output: "Hello World"
+
+Input: "Hello World"
+Mode: "snake_case"
+Output: "hello_world"
+
+Input: "hello world"
+Mode: "PascalCase"
+Output: "HelloWorld"
+```
+
+Normalize prompts, format filenames, convert naming conventions between different systems.
+
+</details>
+
+<details>
+<summary><b>✂️ Text Trimmer</b> - Advanced text trimming options</summary>
+
+**Category:** `DebugPadawan/Text`
+
+Trims text with various whitespace removal options.
+
+**📥 Inputs:**
+- `text` *(String)*: The text to trim
+- `mode` *(List)*: Trim mode - both, start, end, all_whitespace, collapse_spaces
+
+**📤 Outputs:**
+- `trimmed_text` *(String)*: The trimmed text
+
+**💡 Example:**
+```
+Input: "  Hello    World  "
+Mode: "collapse_spaces"
+Output: "Hello World"
+
+Mode: "all_whitespace"
+Output: "HelloWorld"
+```
+
+Clean up prompt formatting, remove extra spaces, prepare text for further processing.
+
+</details>
+
+<details>
+<summary><b>📎 Text Prefix Suffix</b> - Add prefix and/or suffix to text</summary>
+
+**Category:** `DebugPadawan/Text`
+
+Adds prefix and/or suffix to text with optional spacing.
+
+**📥 Inputs:**
+- `text` *(String)*: The base text
+- `prefix` *(String, optional)*: Text to add at the beginning
+- `suffix` *(String, optional)*: Text to add at the end
+- `add_space` *(Boolean)*: Add space between parts (default: True)
+
+**📤 Outputs:**
+- `result_text` *(String)*: The modified text
+
+**💡 Example:**
+```
+Text: "beautiful"
+Prefix: "a"
+Suffix: "sunset"
+Output: "a beautiful sunset"
+```
+
+Build complex prompts from components, wrap text with markers, add modifiers to prompts.
+
+</details>
+
 ---
 
 ### 📦 Data Conversion
@@ -548,6 +637,115 @@ Extracts a sub-list from a larger list using start and end indices.
 - `count` *(Integer)*: Number of elements in the slice.
 
 Get the first N images of a batch, skip the first item, or take a specific range of values.
+
+</details>
+
+<details>
+<summary><b>🎲 Random List Selector</b> - Pick random items from a list</summary>
+
+**Category:** `DebugPadawan/List`
+
+Randomly selects one or more items from a list with seed-based reproducibility.
+
+**📥 Inputs:**
+- `input_list` *(List)*: The input list.
+- `seed` *(Integer)*: Seed for reproducible random selection.
+- `count` *(Integer)*: Number of items to select (default: 1).
+- `allow_duplicates` *(Boolean)*: Allow selecting the same item multiple times.
+
+**📤 Outputs:**
+- `selected_items` *(List)*: The randomly selected items.
+- `count` *(Integer)*: Number of items selected.
+- `first_item` *(Any)*: The first selected item (convenient for single selections).
+
+**💡 Example:**
+```
+Input List: ["style1", "style2", "style3", "style4", "style5"]
+Seed: 42
+Count: 2
+Output: ["style3", "style1"]
+```
+
+Perfect for randomizing prompt styles, selecting random seeds, or picking random colors/tags from lists.
+
+</details>
+
+<details>
+<summary><b>🔀 List Shuffler</b> - Shuffle list order deterministically</summary>
+
+**Category:** `DebugPadawan/List`
+
+Shuffles a list into random order using a seed for reproducibility.
+
+**📥 Inputs:**
+- `input_list` *(List)*: The input list.
+- `seed` *(Integer)*: Seed for reproducible shuffling.
+
+**📤 Outputs:**
+- `shuffled_list` *(List)*: The shuffled list.
+- `count` *(Integer)*: Number of items.
+
+**💡 Example:**
+```
+Input: ["a", "b", "c", "d"]
+Seed: 123
+Output: ["c", "a", "d", "b"]
+```
+
+Randomize processing order, shuffle prompt components, or reorder batch elements.
+
+</details>
+
+<details>
+<summary><b>🔗 List Merger</b> - Combine multiple lists</summary>
+
+**Category:** `DebugPadawan/List`
+
+Merges two lists together with different modes.
+
+**📥 Inputs:**
+- `list_a` *(List)*: First list.
+- `list_b` *(List)*: Second list.
+- `mode` *(List)*: Merge mode - "concatenate" or "interleave".
+
+**📤 Outputs:**
+- `merged_list` *(List)*: The merged list.
+- `count` *(Integer)*: Number of items.
+
+**💡 Example:**
+```
+List A: [1, 2, 3]
+List B: ["a", "b", "c"]
+Mode: "interleave"
+Output: [1, "a", 2, "b", 3, "c"]
+```
+
+Combine tag lists, merge processing pipelines, or interleave prompt components.
+
+</details>
+
+<details>
+<summary><b>🧹 List Deduplicator</b> - Remove duplicates from a list</summary>
+
+**Category:** `DebugPadawan/List`
+
+Removes duplicate items from a list while preserving order.
+
+**📥 Inputs:**
+- `input_list` *(List)*: The input list.
+
+**📤 Outputs:**
+- `deduplicated_list` *(List)*: List with duplicates removed.
+- `count` *(Integer)*: Number of unique items.
+- `removed_count` *(Integer)*: Number of duplicates removed.
+
+**💡 Example:**
+```
+Input: ["apple", "banana", "apple", "orange", "banana"]
+Output: ["apple", "banana", "orange"], count: 3, removed: 2
+```
+
+Clean up tag lists, remove redundant prompts, or filter unique values.
 
 </details>
 
@@ -1012,7 +1210,7 @@ Data → Wait (2.0s) → Processing → Wait (1.0s) → Output
 
 | Category | Nodes | Purpose |
 |----------|-------|---------|
-| **DebugPadawan/Text** | Text Splitter, Text Joiner, Text Replace, Text Regex, String Formatter, Text Compare, Text Length, Text Case, Text Trim | Text manipulation and processing |
+| **DebugPadawan/Text** | Text Splitter, Text Joiner, Text Replace, Text Regex, String Formatter, Text Compare, Text Length, Text Case, Text Trim, Text Case Converter, Text Trimmer, Text Prefix Suffix | Text manipulation and processing |
 | **DebugPadawan/JSON** | TextToJSON, JSONToText | Text to JSON conversion |
 | **DebugPadawan/Debug** | Debug Print | Debugging and monitoring |
 | **DebugPadawan/Timing** | Wait | Timing control and delays |
@@ -1020,7 +1218,7 @@ Data → Wait (2.0s) → Processing → Wait (1.0s) → Output
 | **DebugPadawan/Logic** | Conditional String, Logic Gate | Conditional operations |
 | **DebugPadawan/Image** | Image Info, Color Palette Extractor | Image tensor analysis and color extraction |
 | **DebugPadawan/Math** | Int/Float Math Operation, Random Generator | Basic arithmetic and random number generation |
-| **DebugPadawan/List** | Get List Item, List Slicer | List manipulation |
+| **DebugPadawan/List** | Get List Item, List Slicer, Random List Selector, List Shuffler, List Merger, List Deduplicator | List manipulation |
 | **DebugPadawan/Conversion** | Type Converter, Int to Float, Float to Int, String to Int, String to Float, String to Boolean, Number to String | Type conversion utilities |
 | **DebugPadawan/Number** | Number Clamp, Number Round, Number Range, Number Compare, Number Absolute, Number Sign, Number Remap, Number Lerp | Number formatting and utilities |
 

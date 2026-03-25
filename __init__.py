@@ -67,5 +67,5 @@ NODE_DISPLAY_NAME_MAPPINGS = {
 __all__ = ['NODE_CLASS_MAPPINGS', 'NODE_DISPLAY_NAME_MAPPINGS']
 
 # Version info
-__version__ = "1.4.0"
+__version__ = "1.5.0"
 __author__ = "DebugPadawan"
